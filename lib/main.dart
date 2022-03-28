@@ -98,6 +98,7 @@ class PuzzlePage extends StatefulWidget {
 }
 
 class _PuzzlePageState extends State<PuzzlePage> {
+  List<int> tileNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 0];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,7 +114,10 @@ class _PuzzlePageState extends State<PuzzlePage> {
             child: Column(
               children: [
                 Expanded(
-                  child: Center(child: TilesView()),
+                  child: Center(
+                      child: TilesView(
+                    numbers: tileNumbers,
+                  )),
                 ),
                 SizedBox(
                     width: double.infinity,
@@ -127,7 +131,11 @@ class _PuzzlePageState extends State<PuzzlePage> {
 }
 
 class TilesView extends StatelessWidget {
-  const TilesView({Key? key}) : super(key: key);
+  final List<int> numbers;
+  const TilesView({
+    Key? key,
+    required this.numbers,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -137,9 +145,13 @@ class TilesView extends StatelessWidget {
       crossAxisSpacing: 24,
       mainAxisSpacing: 24,
       padding: const EdgeInsets.symmetric(vertical: 24),
-      children: [
-        TileView(number: 1, color: Colors.blue, onPressed: () => {}),
-      ],
+      children: numbers.map((number) {
+        if (number == 0) {
+          return Container();
+        }
+        return TileView(
+            number: number, color: Colors.blue, onPressed: () => {});
+      }).toList(),
     );
   }
 }
